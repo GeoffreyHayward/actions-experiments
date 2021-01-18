@@ -1,14 +1,13 @@
-name: Slash Command Dispatch
 on:
-  issue_comment:
-    types: [created]
+  repository_dispatch:
+    types:
+      - deploy-command
+
 jobs:
-  slashCommandDispatch:
+  deploy_command:
     runs-on: ubuntu-latest
     steps:
-      - name: Slash Command Dispatch
-        uses: peter-evans/slash-command-dispatch@v2
-        with:
-          token: ${{ secrets.REPO_ACCESS_TOKEN }}
-          commands: example
-          repository: GeoffHayward/actions-experiments
+      - name: testing
+        run: |
+          echo "Branch: ${{ github.event.client_payload.slash_command.args.named.branch }}"
+          echo "Environment: ${{ github.event.client_payload.slash_command.args.unnamed.arg1 }}"
