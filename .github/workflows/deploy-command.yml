@@ -13,5 +13,6 @@ jobs:
         run: echo "$PAYLOAD_CONTEXT"
       - name: testing
         run: |
+          echo "Command: ${{ github.event.client_payload.slash_command.command }}"
           echo "Branch: ${{ github.event.client_payload.slash_command.args.named.branch }}"
           echo "Environment: ${{ github.event.client_payload.slash_command.args.unnamed.arg1 }}"
