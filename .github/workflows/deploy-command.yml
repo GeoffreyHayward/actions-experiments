@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PAYLOAD_CONTEXT: ${{ toJson(github.event.client_payload) }}
-      SHA: ${{ github.event.client_payload.slash_command.args.named.sha }
+      SHA: ${{ github.event.client_payload.slash_command.args.named.sha }}
       TARGET: ${{ github.event.client_payload.slash_command.args.unnamed.arg1 }} 
       COMMENT: ${{ github.event.client_payload.slash_command.args.named.comment }} 
     
