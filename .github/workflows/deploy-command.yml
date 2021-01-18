@@ -28,7 +28,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: $(echo $SHA)
-          
+          ref: ${{ env.SHA }}          
       - name: check
         run: git log -1
