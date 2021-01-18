@@ -1,2 +1,2 @@
-# actions-experiments
+# Actions Experiments
 Github action testing ground
