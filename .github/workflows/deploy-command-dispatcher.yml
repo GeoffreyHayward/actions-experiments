@@ -7,6 +7,9 @@ jobs:
   deploy_command_dispatch:
     runs-on: ubuntu-latest
     steps:
+      - name: Dump
+        run: ${{ toJson(github) }}
+        
       - name: Slash Command Dispatch
         uses: peter-evans/slash-command-dispatch@v2
         with:
