@@ -43,11 +43,11 @@ jobs:
           echo "Repository: $REPOSITORY"
           echo "SHA: $SHA"
       
-      - name Checkout
+      - name: Checkout
         uses: actions/checkout@v2
         env:
           REPOSITORY: ${{ fromJSON(steps.get-pr-info.outputs.result).head.repo.full_name }}
-          SHA: ref: ${{ fromJSON(steps.get-pr-info.outputs.result).head.sha }}
+          SHA: ${{ fromJSON(steps.get-pr-info.outputs.result).head.sha }}
         with:
           repository: $REPOSITORY
           ref: $SHA
