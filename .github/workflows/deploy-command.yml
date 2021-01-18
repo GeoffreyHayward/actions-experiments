@@ -20,7 +20,7 @@ jobs:
       # For debugging      
       - name: Print PR/Context info
         run: |
-          echo ${{ fromJSON($PAYLOAD_CONTEXT) }}
+          echo $PAYLOAD_CONTEXT
           echo "SHA: $SHA"
           echo "Target: $TARGET"
           echo "Comment: $COMMENT"
