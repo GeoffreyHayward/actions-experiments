@@ -4,14 +4,29 @@ on:
     types:
       - created
 jobs:
-  deploy_command_dispatch:
+  pr-info:
+    name: PR commented
+    if: github.event.issue.pull_request
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Dump the client payload context
-        env:
-          PAYLOAD_CONTEXT: ${{ toJson(github) }}
-        run: echo "$PAYLOAD_CONTEXT"
-        
+      - uses: actions/github-script@v3
+        id: get-pr-info
+        with:
+          script: |
+            const request = {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            }
+            core.info(`Getting PR #${request.pull_number} from ${request.owner}/${request.repo}`)
+            try {
+              const result = await github.pulls.get(request)
+              return result.data
+            } catch (err) {
+              core.setFailed(`Request failed with error ${err}`)
+            }
+          
       - name: Slash Command Dispatch
         uses: peter-evans/slash-command-dispatch@v2
         with:
@@ -20,4 +35,7 @@ jobs:
           reactions: true
           issue-type: pull-request
           static-args: |
-            branch=${{ github.ref }}
+            branch=${{ fromJSON(steps.get-pr-info.outputs.result).head.ref }}
+            sha=${{ fromJSON(steps.get-pr-info.outputs.result).head.sha }}
+            repository=${{ github.repository }}
+            comment-id=${{ github.event.comment.id }}
