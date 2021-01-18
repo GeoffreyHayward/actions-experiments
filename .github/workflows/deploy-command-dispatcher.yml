@@ -11,7 +11,7 @@ jobs:
     name: Send Deployment command
     runs-on: ubuntu-latest
     
-    steps:
+    steps:      
       - uses: actions/github-script@v3
         id: get-pr-info
         with:
