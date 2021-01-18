@@ -1,3 +1,5 @@
+name: Deployment Command
+
 on:
   repository_dispatch:
     types:
