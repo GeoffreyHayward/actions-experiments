@@ -4,8 +4,10 @@ on:
       - deploy-command
 
 jobs:
-  steps:
-    - name: testing
-      run: |
-        echo "Branch: ${{ github.event.client_payload.slash_command.args.named.branch }}"
-        echo "Environment: ${{ github.event.client_payload.slash_command.args.unnamed.arg1 }}"
+  deploy_command:
+    runs-on: ubuntu-latest
+    steps:
+      - name: testing
+        run: |
+          echo "Branch: ${{ github.event.client_payload.slash_command.args.named.branch }}"
+          echo "Environment: ${{ github.event.client_payload.slash_command.args.unnamed.arg1 }}"
