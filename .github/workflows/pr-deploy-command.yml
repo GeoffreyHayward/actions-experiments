@@ -45,9 +45,6 @@ jobs:
       
       - name: Checkout
         uses: actions/checkout@v2
-        env:
-          REPOSITORY: ${{ fromJSON(steps.get-pr-info.outputs.result).head.repo.full_name }}
-          SHA: ${{ fromJSON(steps.get-pr-info.outputs.result).head.sha }}
         with:
-          repository: $REPOSITORY
-          ref: $SHA
+          repository: ${{ fromJSON(steps.get-pr-info.outputs.result).head.repo.full_name }}
+          ref: ${{ fromJSON(steps.get-pr-info.outputs.result).head.sha }}
