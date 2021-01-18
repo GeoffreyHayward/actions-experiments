@@ -7,8 +7,10 @@ jobs:
   deploy_command_dispatch:
     runs-on: ubuntu-latest
     steps:
-      - name: Dump
-        run: ${{ toJson(github) }}
+      - name: Dump the client payload context
+        env:
+          PAYLOAD_CONTEXT: ${{ toJson(github) }}
+        run: echo "$PAYLOAD_CONTEXT"
         
       - name: Slash Command Dispatch
         uses: peter-evans/slash-command-dispatch@v2
