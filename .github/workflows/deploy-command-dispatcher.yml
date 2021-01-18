@@ -15,4 +15,4 @@ jobs:
           reactions: true
           issue-type: pull-request
           static-args: |
-            branch=${{ $GITHUB_REF }}
+            branch=$GITHUB_REF
