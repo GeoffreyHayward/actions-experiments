@@ -12,6 +12,7 @@ jobs:
     env:
       PAYLOAD_CONTEXT: ${{ toJson(github.event.client_payload) }}
       SHA: ${{ github.event.client_payload.slash_command.args.named.sha }}
+      BRANCH: ${{ github.event.client_payload.slash_command.args.named.branch }}
       TARGET: ${{ github.event.client_payload.slash_command.args.unnamed.arg1 }} 
       COMMENT: ${{ github.event.client_payload.slash_command.args.named.comment }} 
     
@@ -22,12 +23,14 @@ jobs:
         run: |
           echo $PAYLOAD_CONTEXT
           echo "SHA: $SHA"
+          echo "BRANCH: $BRANCH"
           echo "Target: $TARGET"
           echo "Comment: $COMMENT"
       
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: ${{ env.SHA }}          
+          ref: ${{ env.BRANCH }}   
+    
       - name: check
         run: git log -1
