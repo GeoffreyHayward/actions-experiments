@@ -33,7 +33,7 @@ jobs:
         with:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           commands: deploy
-          reactions: seen
+          reactions: true
           issue-type: pull-request
           static-args: |
             branch=${{ fromJSON(steps.get-pr-info.outputs.result).head.ref }}
