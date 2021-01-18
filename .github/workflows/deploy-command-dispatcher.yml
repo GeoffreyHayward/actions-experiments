@@ -32,7 +32,8 @@ jobs:
         uses: peter-evans/slash-command-dispatch@v2
         with:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
-          commands: deploy
+          commands: |
+            deploy
           reactions: true
           issue-type: pull-request
           static-args: |
