@@ -1,0 +1,53 @@
+name: PR Deploy Command
+on:
+  issue_comment:
+    types:
+      - created
+jobs:
+  pr-info:
+    name: PR commented
+    if: github.event.issue.pull_request
+    runs-on: ubuntu-latest
+    
+    steps:
+    
+      - name: Update comment
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          comment-id: ${{ github.event.comment.id }}
+          reactions: eyes
+    
+      - name: Get PR info 
+        uses: actions/github-script@v3
+        id: get-pr-info
+        with:
+          script: |
+            const request = {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            }
+            try {
+              const result = await github.pulls.get(request)
+              return result.data
+            } catch (err) {
+              core.setFailed(`Request failed with error ${err}`)
+            }
+            
+      # For debugging      
+      - name: Print PR/Context info
+        env:
+          REPOSITORY: ${{ fromJSON(steps.get-pr-info.outputs.result).head.repo.full_name }}
+          SHA: ref: ${{ fromJSON(steps.get-pr-info.outputs.result).head.sha }}
+        run: |
+          echo "Repository: $REPOSITORY"
+          echo "SHA: $SHA"
+      
+      - name Checkout
+        uses: actions/checkout@v2
+        env:
+          REPOSITORY: ${{ fromJSON(steps.get-pr-info.outputs.result).head.repo.full_name }}
+          SHA: ref: ${{ fromJSON(steps.get-pr-info.outputs.result).head.sha }}
+        with:
+          repository: $REPOSITORY
+          ref: $SHA
