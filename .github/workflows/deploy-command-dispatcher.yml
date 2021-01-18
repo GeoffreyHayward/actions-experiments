@@ -1,12 +1,14 @@
-name: PR Deploy Command Dispatch
+name: Dispatch Deployment Command (PR Deployment)
+
 on:
   issue_comment:
     types:
       - created
+        
 jobs:
-  pr-info:
-    name: PR commented
+  dispatch-deployment-command:
     if: github.event.issue.pull_request
+    name: Send Deployment command
     runs-on: ubuntu-latest
     
     steps:
@@ -19,7 +21,6 @@ jobs:
               repo: context.repo.repo,
               pull_number: context.issue.number
             }
-            core.info(`Getting PR #${request.pull_number} from ${request.owner}/${request.repo}`)
             try {
               const result = await github.pulls.get(request)
               return result.data
@@ -32,10 +33,9 @@ jobs:
         with:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           commands: deploy
-          reactions: true
+          reactions: seen
           issue-type: pull-request
           static-args: |
             branch=${{ fromJSON(steps.get-pr-info.outputs.result).head.ref }}
             sha=${{ fromJSON(steps.get-pr-info.outputs.result).head.sha }}
-            repository=${{ github.repository }}
             comment-id=${{ github.event.comment.id }}
