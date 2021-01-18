@@ -38,7 +38,7 @@ jobs:
       - name: Print PR/Context info
         env:
           REPOSITORY: ${{ fromJSON(steps.get-pr-info.outputs.result).head.repo.full_name }}
-          SHA: ref: ${{ fromJSON(steps.get-pr-info.outputs.result).head.sha }}
+          SHA: ${{ fromJSON(steps.get-pr-info.outputs.result).head.sha }}
         run: |
           echo "Repository: $REPOSITORY"
           echo "SHA: $SHA"
