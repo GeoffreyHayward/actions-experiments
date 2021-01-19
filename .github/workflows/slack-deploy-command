@@ -1,0 +1,32 @@
+name: Deployment Command
+
+on:
+  repository_dispatch:
+    types:
+      - slack-deploy-command
+
+jobs:
+  build:
+    name: Build Commit
+    runs-on: ubuntu-latest
+    env:
+      PAYLOAD_CONTEXT: ${{ toJson(github.event.client_payload) }}
+      BRANCH: ${{ github.event.client_payload.branch }}
+      TARGET: ${{ github.event.client_payload.target }} 
+    
+    steps:
+          
+      # For debugging      
+      - name: Print PR/Context info
+        run: |
+          echo $PAYLOAD_CONTEXT
+          echo "BRANCH: $BRANCH"
+          echo "Target: $TARGET"
+      
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ env.BRANCH }}   
+    
+      - name: check
+        run: git log -1
