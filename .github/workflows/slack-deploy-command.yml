@@ -30,12 +30,6 @@ jobs:
           echo "USER_NAME: $USER_NAME"
           echo "TOKEN: $TOKEN"
 
-      - name: Acknowladge that the job is running
-        uses: muinmomin/webhook-action@v1.0.0
-        with:
-          url: ${{ env.RESPONSE_URL }}
-          data: '{ "response_type": "in_channel", "text": "Pipeline progress...", "attachments": [{ "text" : "Request received",  "color": "#78BE20" }] }'
-
       - name: Identify target
         uses: actions/github-script@v3
         id: find-target
