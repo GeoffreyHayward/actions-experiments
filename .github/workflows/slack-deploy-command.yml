@@ -6,6 +6,7 @@ on:
       - slack-deploy-command
 
 jobs:
+  
   build:
     name: Build Commit
     runs-on: ubuntu-latest
@@ -19,7 +20,6 @@ jobs:
 
 
     steps:
-
       # For debugging
       - name: Print payload values
         run: |
@@ -29,6 +29,20 @@ jobs:
           echo "RESPONSE_URL: $RESPONSE_URL"
           echo "USER_NAME: $USER_NAME"
           echo "TOKEN: $TOKEN"
+
+      - name: Acknowladge that the job is running
+        uses: muinmomin/webhook-action@v1.0.0
+        with:
+          url: ${{ RESPONSE_URL }}
+          data: `{
+            "response_type": "in_channel",
+            "text": "Pipeline progress..."
+              "attachments": [
+                {
+                  "text": "Request received"
+                }
+              ]
+          }`
 
       - name: Identify target
         uses: actions/github-script@v3
@@ -44,7 +58,7 @@ jobs:
               return environments[`${process.env.CHANNEL_ID}`]
             }
 
-      # if fail send slack message
+      # if fail send slack message that the env is not known
 
       - name: Print Identify target
         run: |
@@ -54,6 +68,24 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: ${{ env.BRANCH }}
+
+      # if fail send slack message that branch does not exist
+
+
+      # if successful send slack message that branch is being built
+      - name: Send branch not found message to slack
+        uses: muinmomin/webhook-action@v1.0.0
+        with:
+          url: ${{ RESPONSE_URL }}
+          data: `{
+            "response_type": "in_channel",
+            "text": "Pipeline progress..."
+              "attachments": [
+                {
+                  "text": "Building project"
+                }
+              ]
+          }`
 
       - name: check
         run: git log -1
