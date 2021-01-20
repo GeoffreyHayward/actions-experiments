@@ -33,7 +33,7 @@ jobs:
       - name: Acknowladge that the job is running
         uses: muinmomin/webhook-action@v1.0.0
         with:
-          url: ${{ RESPONSE_URL }}
+          url: ${{ env.RESPONSE_URL }}
           data: "{ 'response_type': 'in_channel', 'text': 'Pipeline progress...', 'attachments': [{ 'text' : 'Request received' }] }"
 
       - name: Identify target
@@ -68,7 +68,7 @@ jobs:
       - name: Send branch not found message to slack
         uses: muinmomin/webhook-action@v1.0.0
         with:
-          url: ${{ RESPONSE_URL }}
+          url: ${{ env.RESPONSE_URL }}
           data: "{ 'response_type': 'in_channel', 'text': 'Pipeline progress...', 'attachments': [{ 'text' : 'Building project' }] }"
 
       - name: check
