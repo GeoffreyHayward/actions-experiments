@@ -17,8 +17,6 @@ jobs:
       RESPONSE_URL: ${{  github.event.client_payload.data.response_url }}
       USER_NAME: ${{  github.event.client_payload.data.user_name }}
       TOKEN: ${{  github.event.client_payload.data.token }}
-      NHS_RED: #DA291C
-      NHS_GREEN: #78BE20
 
 
     steps:
@@ -36,7 +34,7 @@ jobs:
         uses: muinmomin/webhook-action@v1.0.0
         with:
           url: ${{ env.RESPONSE_URL }}
-          data: '{ "response_type": "in_channel", "text": "Pipeline progress...", "attachments": [{ "text" : "Request received",  "color": "${{ env.NHS_GREEN }}" }] }'
+          data: '{ "response_type": "in_channel", "text": "Pipeline progress...", "attachments": [{ "text" : "Request received",  "color": "#78BE20" }] }'
 
       - name: Identify target
         uses: actions/github-script@v3
@@ -69,14 +67,14 @@ jobs:
         uses: muinmomin/webhook-action@v1.0.0
         with:
           url: ${{ env.RESPONSE_URL }}
-          data: '{ "response_type": "in_channel", "text": "Pipeline Failed!", "attachments": [{ "text" : "Cannot find the branch named ${{ env.BRANCH }}",  "color": "${{ env.NHS_RED }}" }] }'
+          data: '{ "response_type": "in_channel", "text": "Pipeline Failed!", "attachments": [{ "text" : "Cannot find the branch named ${{ env.BRANCH }}",  "color": "#DA291C" }] }'
 
       # if successful send slack message that branch is being built
       - name: Send branch not found message to slack
         uses: muinmomin/webhook-action@v1.0.0
         with:
           url: ${{ env.RESPONSE_URL }}
-          data: '{ "response_type": "in_channel", "text": "Pipeline progress...", "attachments": [{ "text" : "Building project", "color": "${{ env.NHS_GREEN }}" }] }'
+          data: '{ "response_type": "in_channel", "text": "Pipeline progress...", "attachments": [{ "text" : "Building project", "color": "#78BE20" }] }'
 
       - name: check
         run: git log -1
