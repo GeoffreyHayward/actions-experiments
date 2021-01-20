@@ -39,8 +39,8 @@ jobs:
             const environments = {
               C01KGP0B78R: 'debugging'
             }
-            if(environments[$CHANNEL_ID] === undefined) {
-              return environments[$CHANNEL_ID]
+            if(environments[`$CHANNEL_ID`] === undefined) {
+              return environments[`$CHANNEL_ID`]
             } else {
               core.setFailed("No target environment has been identifed.")
             }
