@@ -62,7 +62,12 @@ jobs:
           ref: ${{ env.BRANCH }}
 
       # if fail send slack message that branch does not exist
-
+      - name: Send branch not found message to slack
+        if: ${{ failure() }}
+        uses: muinmomin/webhook-action@v1.0.0
+        with:
+          url: ${{ env.RESPONSE_URL }}
+          data: '{ "response_type": "in_channel", "text": "Pipeline Failed!", "attachments": [{ "text" : "Cannot find branch ${{ env.BRANCH }}" }] }'
 
       # if successful send slack message that branch is being built
       - name: Send branch not found message to slack
