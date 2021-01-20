@@ -34,7 +34,7 @@ jobs:
         uses: muinmomin/webhook-action@v1.0.0
         with:
           url: ${{ env.RESPONSE_URL }}
-          data: "{ 'response_type': 'in_channel', 'text': 'Pipeline progress...', 'attachments': [{ 'text' : 'Request received' }] }"
+          data: '{ "response_type": "in_channel", "text": "Pipeline progress...", "attachments": [{ "text" : "Request received" }] }'
 
       - name: Identify target
         uses: actions/github-script@v3
@@ -69,7 +69,7 @@ jobs:
         uses: muinmomin/webhook-action@v1.0.0
         with:
           url: ${{ env.RESPONSE_URL }}
-          data: "{ 'response_type': 'in_channel', 'text': 'Pipeline progress...', 'attachments': [{ 'text' : 'Building project' }] }"
+          data: '{ "response_type": "in_channel", "text": "Pipeline progress...", "attachments": [{ "text" : "Building project" }] }'
 
       - name: check
         run: git log -1
