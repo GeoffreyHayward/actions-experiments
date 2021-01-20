@@ -28,7 +28,6 @@ jobs:
           echo "CHANNEL_ID: $CHANNEL_ID"
           echo "RESPONSE_URL: $RESPONSE_URL"
           echo "USER_NAME: $USER_NAME"
-          echo "PAYLOAD_CONTEXT: $PAYLOAD_CONTEXT"
           echo "TOKEN: $TOKEN"
 
       - name: Identify target
@@ -40,7 +39,6 @@ jobs:
               C01KGP0B78R: 'debugging'
             }
             if(environments[`${process.env.CHANNEL_ID}`] === undefined) {
-              console.log(`Env is ${process.env.CHANNEL_ID}`)
               core.setFailed("No target environment has been identifed.")
             } else {
               return environments[`${process.env.CHANNEL_ID}`]
@@ -50,4 +48,12 @@ jobs:
 
       - name: Print Identify target
         run: |
-          echo "${{steps.find-target.outputs.result}}"
+          echo ${{steps.find-target.outputs.result}}
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ env.BRANCH }}
+
+      - name: check
+        run: git log -1
