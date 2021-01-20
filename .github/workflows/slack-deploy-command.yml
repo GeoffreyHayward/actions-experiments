@@ -40,6 +40,7 @@ jobs:
               C01KGP0B78R: 'debugging'
             }
             if(environments[`$CHANNEL_ID`] === undefined) {
+              console.log(`$CHANNEL_ID is ${environments[`$CHANNEL_ID`]}`)
               return environments[`$CHANNEL_ID`]
             } else {
               core.setFailed("No target environment has been identifed.")
