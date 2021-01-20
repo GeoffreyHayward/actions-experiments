@@ -11,22 +11,42 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PAYLOAD_CONTEXT: ${{ toJson(github.event.client_payload) }}
-      BRANCH: ${{ github.event.client_payload.branch }}
-      TARGET: ${{ github.event.client_payload.target }} 
-    
+      BRANCH: ${{ github.event.client_payload.data.text }}
+      CHANNEL_ID: ${{ github.event.client_payload.data.channel_id }}
+      RESPONSE_URL: ${{  github.event.client_payload.data.response_url }}
+      USER_NAME: ${{  github.event.client_payload.data.user_name }}
+      TOKEN: ${{  github.event.client_payload.data.token }}
+
+
     steps:
-          
-      # For debugging      
-      - name: Print PR/Context info
+
+      # For debugging
+      - name: Print payload values
         run: |
-          echo $PAYLOAD_CONTEXT
+          echo "PAYLOAD_CONTEXT: $PAYLOAD_CONTEXT"
           echo "BRANCH: $BRANCH"
-          echo "Target: $TARGET"
-      
-      - name: Checkout
-        uses: actions/checkout@v2
+          echo "CHANNEL_ID: $CHANNEL_ID"
+          echo "RESPONSE_URL: $RESPONSE_URL"
+          echo "USER_NAME: $USER_NAME"
+          echo "PAYLOAD_CONTEXT: $PAYLOAD_CONTEXT"
+          echo "TOKEN: $TOKEN"
+
+      - name: Identify target
+        uses: actions/github-script@v3
+        id: find-target
         with:
-          ref: ${{ env.BRANCH }}   
-    
-      - name: check
-        run: git log -1
+          script: |
+            const environments = {
+              C01KGP0B78R: 'debugging'
+            }
+            if(environments[${CHANNEL_ID] === undefined) {
+              return environments[${CHANNEL_ID]
+            } else {
+              core.setFailed("No target environment has been identifed.")
+            }
+
+      # if fail send slack message
+
+      - name: Print Identify target
+        run: |
+          echo "${{steps.find-target.outputs.result}}"
