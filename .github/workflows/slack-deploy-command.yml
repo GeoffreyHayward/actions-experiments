@@ -89,7 +89,7 @@ jobs:
           data: '{ "response_type": "in_channel", "text": "Pipeline progress...", "attachments": [{ "text" : "Building project", "color": "#78BE20" }] }'
 
       - name: Build branch
-        run: clean build
+        run: mvn clean build
 
       - name: Slack message (failed to build the branch)
         if: ${{ failure() }}
