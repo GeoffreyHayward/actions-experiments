@@ -90,6 +90,7 @@ jobs:
 
       - name: Build branch
         run: mvn clean build
+        working-directory: hippo/
 
       - name: Slack message (failed to build the branch)
         if: ${{ failure() }}
@@ -110,6 +111,7 @@ jobs:
 
       - name: Build branch
         run: make ondemand.upload
+        working-directory: hippo/
 
       - name: Slack message (failed to build the branch)
         if: ${{ failure() }}
@@ -131,6 +133,7 @@ jobs:
       - name: Build branch
         id: pipeline-deploy
         run: make ondemand.pipeline-deploy
+        working-directory: hippo/
         env:
           ENV: ${{steps.find-target.outputs.result}}
           RD_URL: ${{ secrets.RD_URL }}
