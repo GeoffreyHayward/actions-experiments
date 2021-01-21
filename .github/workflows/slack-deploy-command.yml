@@ -29,12 +29,6 @@ jobs:
       #
       # Identify target server
       #
-      - name: Slack message (identifying the target server)
-        uses: muinmomin/webhook-action@v1.0.0
-        with:
-          url: ${{ env.RESPONSE_URL }}
-          data: '{ "response_type": "in_channel", "text": "Pipeline progress...", "attachments": [{ "text" : "Identifying the target server", "color": "#78BE20" }] }'
-
       - name: Identify target
         uses: actions/github-script@v3
         id: find-target
@@ -42,10 +36,9 @@ jobs:
           script: |
             const environments = {
               C01KGP0B78R: 'debugging',
-              C011BKDNUS1: 'dev,
+              C011BKDNUS1: 'dev',
               C01119ANCJE: 'tst',
               C01119BULFL: 'trn'
-
             }
             if(environments[`${process.env.CHANNEL_ID}`] === undefined) {
               core.setFailed("No target environment has been identifed.")
