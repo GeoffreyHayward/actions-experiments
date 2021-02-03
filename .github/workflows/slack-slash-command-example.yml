@@ -1,0 +1,21 @@
+name: Slack Slasch Command Example
+
+on:
+  repository_dispatch:
+    types:
+      - slack-slash-command-example
+
+jobs:
+  demo:
+    name: Run Demo
+    runs-on: ubuntu-latest
+    env:
+      PAYLOAD_CONTEXT: ${{ toJson(github.event.client_payload) }}
+      USER_NAME: ${{  github.event.client_payload.data.user_name }}
+
+    steps:
+      - name: Send Slack Message
+        uses: muinmomin/webhook-action@v1.0.0
+        with:
+          url: ${{ env.RESPONSE_URL }}
+          data: '{ "response_type": "in_channel", "text": "Hello <@${{ env.USER_NAME }}> from the running GitHub Actions Workflow." }'
