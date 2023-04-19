@@ -1,0 +1,18 @@
+name: Test Running this via ifttt.com
+
+on:
+  repository_dispatch:
+    types:
+      - ifttt-test
+
+jobs:
+  demo:
+    name: Run Demo
+    runs-on: ubuntu-latest
+    env:
+      PAYLOAD_CONTEXT: ${{ toJson(github.event.client_payload) }}
+      USER_NAME: ${{  github.event.client_payload.data.user_name }}
+
+    steps:
+      - name: Echo Hello World
+        run: echo "Hello World"
